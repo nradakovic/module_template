@@ -20,7 +20,6 @@ on:
       - main # docs are built only on push to main branch, for feature branches there are PR builds
   merge_group:
     types: [checks_requested]
-
 jobs:
   docs-build:
     name: Build documentation
@@ -70,7 +69,6 @@ jobs:
           path: github-pages.tar
           retention-days: 1
           if-no-files-found: error
-
   docs-deploy:
     name: Deploy documentation to GitHub Pages
     permissions:
@@ -88,7 +86,6 @@ jobs:
       # ------------------------------------------------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
-
       - name: Download documentation artifact
         uses: actions/download-artifact@v4.1.8
         # ------------------------------------------------------------------------------
@@ -102,10 +99,8 @@ jobs:
         # ------------------------------------------------------------------------------
         with:
           name: github-pages-${{ github.event.pull_request.head.sha || github.sha }}
-
       - name: Untar documentation artifact
         run: mkdir -p extracted_docs && tar -xf github-pages.tar -C extracted_docs
-
       - name: Deploy 🚀
         id: pages-deployment
         uses: ./.github/actions/deploy-versioned-pages

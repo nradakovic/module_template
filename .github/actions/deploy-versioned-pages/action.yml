@@ -28,12 +28,10 @@ inputs:
   create_comment:
     description: "Create a comment on the PR with the URL to the documentation" # in case of PR
     default: "true"
-
 outputs:
   target_folder:
     description: "The target folder for the documentation"
     value: ${{ steps.calc.outputs.target_folder }}
-
 runs:
   using: "composite"
   steps:
@@ -47,7 +45,6 @@ runs:
           target_folder="${{github.ref_name}}"
         fi
         echo "target_folder=$target_folder" >> $GITHUB_OUTPUT
-
     - name: Prepare the deploy folder
       shell: bash
       run: |
@@ -93,7 +90,6 @@ runs:
         ls -al deploy_root
         ls -al version_root
         cat  version_root/"${{ inputs.versions_file }}"
-
     - name: Deploy Documentation
       uses: JamesIves/github-pages-deploy-action@v4
       with:
@@ -101,13 +97,11 @@ runs:
         target-folder: ${{ steps.calc.outputs.target_folder }}
         clean: true
         clean-exclude: .nojekyll
-
     - name: Deploy  version file 🚀
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         folder: version_root
         clean: false
-
     - name: Find Comment
       if: ${{ github.event_name == 'pull_request_target' }}
       uses: peter-evans/find-comment@v3
@@ -116,7 +110,6 @@ runs:
         issue-number: ${{ github.event.pull_request.number }}
         comment-author: 'github-actions[bot]'
         body-includes: The created documentation from the pull request
-
     - name: Comment on PR with docs URL
       if: ${{ github.event_name == 'pull_request_target' && inputs.create_comment == 'true' && steps.fc.outputs.comment-id == '' }}
       uses: peter-evans/create-or-update-comment@v4

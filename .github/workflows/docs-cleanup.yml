@@ -16,7 +16,6 @@ on:
   schedule:
     - cron: "0 0 * * *" # Runs every day at midnight UTC
   workflow_dispatch: # Allows manual trigger
-
 jobs:
   docs-cleanup:
     name: Cleanup old documentation
@@ -31,7 +30,6 @@ jobs:
           repository: ${{ github.repository }}
           ref: gh-pages
           fetch-depth: 0
-
       - name: Cleanup old documentation
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -74,7 +72,6 @@ jobs:
 
           # Clean up temp files
           rm versions_tmp.json versions_tmp_clean.json
-
       - name: Commit and Push Changes
         uses: JamesIves/github-pages-deploy-action@v4
         with:
